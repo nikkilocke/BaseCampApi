@@ -1,0 +1,30 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29001.49
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BaseCampApi", "BaseCampApi\BaseCampApi.csproj", "{5F094429-3EE2-4003-BE08-2AC076B25DA8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{81AF0347-C76A-459B-AABF-4EAF819BD2C1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5F094429-3EE2-4003-BE08-2AC076B25DA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F094429-3EE2-4003-BE08-2AC076B25DA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F094429-3EE2-4003-BE08-2AC076B25DA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F094429-3EE2-4003-BE08-2AC076B25DA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81AF0347-C76A-459B-AABF-4EAF819BD2C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81AF0347-C76A-459B-AABF-4EAF819BD2C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81AF0347-C76A-459B-AABF-4EAF819BD2C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81AF0347-C76A-459B-AABF-4EAF819BD2C1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FCF9D82D-ABFB-46D3-B56C-5120D1C644D3}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{68EAB943-953D-4F1D-B7E9-A52A9EB7BDF5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BaseCampApi</RootNamespace>
+    <AssemblyName>BaseCampApi</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\BaseCampApi\ApiEntryBase.cs">
+      <Link>ApiEntryBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BaseCampApi\Authorization.cs">
+      <Link>Authorization.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BaseCampApi\BasecampApi.cs">
+      <Link>BasecampApi.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BaseCampApi\Campfire.cs">
+      <Link>Campfire.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BaseCampApi\MessageBoard.cs">
+      <Link>MessageBoard.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BaseCampApi\Person.cs">
+      <Link>Person.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BaseCampApi\Project.cs">
+      <Link>Project.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BaseCampApi\Question.cs">
+      <Link>Question.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BaseCampApi\Recording.cs">
+      <Link>Recording.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BaseCampApi\Schedule.cs">
+      <Link>Schedule.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BaseCampApi\Settings.cs">
+      <Link>Settings.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BaseCampApi\Subscription.cs">
+      <Link>Subscription.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BaseCampApi\ToDo.cs">
+      <Link>ToDo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BaseCampApi\Vault.cs">
+      <Link>Vault.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
