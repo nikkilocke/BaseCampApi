@@ -15,3 +15,13 @@ This information has to be provided in an object that implements the [ISettings]
 ## Testing
 
 In order to run the Unit Tests provided, you must provide additional data in your ISettings object - see the Settings object in [UnitTest1.cs](../master/Tests/UnitTest1.cs).
+
+## Hooks for more complex uses
+
+You do not have to use the provided Settings class, provided you have a class that implements ISettings.
+
+As part of the OAuth2 process, the default implementation starts a browser to obtain authorisation. This is done by calling OpenBrowser. You can provide an alternative action to open a browser, or otherwise call the 37signals page to ask for authorisation.
+
+Once authorisation is complete, the OAuth2 process will redirect the browser to the redirect url you provide in the settings. The default implementation provides an extremely dumb web server to listed on the redirect url port, and collect the `code=` parameter from the request. You can provide an alternative by providing a `WaitForRedirect` async function.
+
+These options would be usweful if you were using the Api in your own Web Server, for instance.
