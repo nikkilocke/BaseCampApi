@@ -24,4 +24,8 @@ As part of the OAuth2 process, the default implementation starts a browser to ob
 
 Once authorisation is complete, the OAuth2 process will redirect the browser to the redirect url you provide in the settings. The default implementation provides an extremely dumb web server to listed on the redirect url port, and collect the `code=` parameter from the request. You can provide an alternative by providing a `WaitForRedirect` async function.
 
-These options would be usweful if you were using the Api in your own Web Server, for instance.
+These options would be useful if you were using the Api in your own Web Server, for instance.
+
+## License
+
+This wrapper is licensed under creative commons share-alike, see [license.txt](../master/license.txt).

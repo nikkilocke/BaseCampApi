@@ -2,6 +2,19 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
+    <AssemblyName>BaseCampApi</AssemblyName>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>BaseCampApiNetCore3</PackageId>
+    <Authors>Nikki Locke</Authors>
+    <Company>Trumphurst Ltd</Company>
+    <Description>C# Net Core 3 wrapper for the Basecamp API</Description>
+    <Copyright>(c) 2019 Trumphurst &lt;td.</Copyright>
+    <PackageProjectUrl>https://github.com/nikkilocke/BaseCampApi</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/nikkilocke/BaseCampApi</RepositoryUrl>
+    <RepositoryType>GitHub</RepositoryType>
+    <PackageTags>Basecamp</PackageTags>
+    <PackageLicenseExpression></PackageLicenseExpression>
+    <PackageLicenseFile>license.txt</PackageLicenseFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -32,6 +45,13 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\license.txt">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
