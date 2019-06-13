@@ -17,8 +17,8 @@ namespace BaseCampApi {
 
 		async public Task<ApiList<Message>> GetMessages(Api api, Status status = Status.active) {
 			if (messages_count == 0)
-				return ApiList<Message>.EmptyList(messages_url);
-			return await api.GetAsync<ApiList<Message>>(messages_url, status == Status.active ? null : new { status });
+				return ApiList<Message>.EmptyList(Api.UrlToApi(messages_url));
+			return await api.GetAsync<ApiList<Message>>(Api.UrlToApi(messages_url), status == Status.active ? null : new { status });
 		}
 
 		async public Task<Message> GetMessage(Api api, long messageId) {

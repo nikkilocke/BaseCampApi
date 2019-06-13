@@ -19,7 +19,7 @@ namespace BaseCampApi {
 		}
 
 		static async public Task<Subscription> GetSubscription(Api api, ISubscribable item) {
-			return await api.GetAsync<Subscription>(item.SubscriptionUrl);
+			return await api.GetAsync<Subscription>(Api.UrlToApi(item.SubscriptionUrl));
 		}
 
 		static async public Task<Subscription> SubscribeMe(Api api, long projectId, long recordingId) {
@@ -27,7 +27,7 @@ namespace BaseCampApi {
 		}
 
 		static async public Task<Subscription> SubscribeMe(Api api, ISubscribable item) {
-			return await api.PostAsync<Subscription>(item.SubscriptionUrl);
+			return await api.PostAsync<Subscription>(Api.UrlToApi(item.SubscriptionUrl));
 		}
 
 		static async public Task UnsubscribeMe(Api api, long projectId, long recordingId) {
@@ -35,7 +35,7 @@ namespace BaseCampApi {
 		}
 
 		static async public Task UnsubscribeMe(Api api, ISubscribable item) {
-			await api.DeleteAsync<Subscription>(item.SubscriptionUrl);
+			await api.DeleteAsync<Subscription>(Api.UrlToApi(item.SubscriptionUrl));
 		}
 
 		static async public Task<Subscription> Update(Api api, long projectId, long recordingId, UpdateSubscriptionsList updates) {
@@ -43,7 +43,7 @@ namespace BaseCampApi {
 		}
 
 		static async public Task<Subscription> Update(Api api, ISubscribable item, UpdateSubscriptionsList updates) {
-			return await api.PutAsync<Subscription>(item.SubscriptionUrl, null, updates);
+			return await api.PutAsync<Subscription>(Api.UrlToApi(item.SubscriptionUrl), null, updates);
 		}
 
 	}

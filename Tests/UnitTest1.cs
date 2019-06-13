@@ -187,15 +187,9 @@ namespace Tests {
 			Project p = Project.GetProject(Api, Settings.TestProject).Result;
 			string description = "Test altered description 1";
 			Project changed = p.Update(Api, p.name, description).Result;
-			// Sometimes returned project description not changed - so reread project
-			if(changed.description != description)
-				changed = Project.GetProject(Api, Settings.TestProject).Result;
 			Assert.AreEqual(description, changed.description);
 			description = p.description == description ? "Test original description" : p.description;
 			changed = p.Update(Api, p.name, description).Result;
-			// Sometimes returned project description not changed - so reread project
-			if (changed.description != description)
-				changed = Project.GetProject(Api, Settings.TestProject).Result;
 			Assert.AreEqual(description, changed.description);
 		}
 		[TestMethod]

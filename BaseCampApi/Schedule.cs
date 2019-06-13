@@ -14,7 +14,7 @@ namespace BaseCampApi {
 		}
 
 		async public Task<ApiList<ScheduleEntry>> GetScheduleEntries(Api api, Status status = Status.active) {
-			return await api.GetAsync<ApiList<ScheduleEntry>>(entries_url, status == Status.active ? null : new { status });
+			return await api.GetAsync<ApiList<ScheduleEntry>>(Api.UrlToApi(entries_url), status == Status.active ? null : new { status });
 		}
 	}
 

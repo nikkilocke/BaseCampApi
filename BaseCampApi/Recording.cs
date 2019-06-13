@@ -76,8 +76,8 @@ namespace BaseCampApi {
 
 		async public Task<ApiList<Comment>> GetComments(Api api) {
 			if (comments_count == 0)
-				return ApiList<Comment>.EmptyList(comments_url);
-			return await api.GetAsync<ApiList<Comment>>(comments_url);
+				return ApiList<Comment>.EmptyList(Api.UrlToApi(comments_url));
+			return await api.GetAsync<ApiList<Comment>>(Api.UrlToApi(comments_url));
 		}
 	}
 }
