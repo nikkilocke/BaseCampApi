@@ -14,11 +14,6 @@ using System.Text.RegularExpressions;
 using System.Runtime.InteropServices;
 using System.Linq;
 using System.IO;
-#if NETCORE
-using Microsoft.AspNetCore.StaticFiles;
-#else
-using System.Web;
-#endif
 
 namespace BaseCampApi {
 	/// <summary>
@@ -269,9 +264,9 @@ namespace BaseCampApi {
 		}
 
 		/// <summary>
-		/// Add Get Paranmeters to a uri
+		/// Add Get Parameters to a uri
 		/// </summary>
-		/// <param name="parameters">Object whose properties are the argumentgs - e.g. new {
+		/// <param name="parameters">Object whose properties are the arguments - e.g. new {
 		/// 		type = "web_server",
 		/// 		client_id = Settings.ClientId,
 		/// 		redirect_uri = Settings.RedirectUri
@@ -290,12 +285,9 @@ namespace BaseCampApi {
 			return uri;
 		}
 
-#if NETCORE
-		/// <summary>
-		/// Object for converting file names to mime types
-		/// </summary>
-		public static FileExtensionContentTypeProvider MimeTypeTranslator = new FileExtensionContentTypeProvider();
-#endif
+		public static string UrlToApi(string url) {
+			return url.Replace("basecamp.com", "basecampapi.com");
+		}
 
 		/// <summary>
 		/// General API message sending.
@@ -306,7 +298,7 @@ namespace BaseCampApi {
 		/// object (converted to Json, MIME type application/json)
 		/// JObject (converted to Json, MIME type application/json)
 		/// string (sent as is, MIME type text/plain)
-		/// FielStream (sent as stream, with Attachment file name, Content-Length, and MIME type according to file extension)
+		/// FileStream (sent as stream, with Attachment file name, Content-Length, and MIME type according to file extension)
 		/// </param>
 		/// <returns>The result as a JObject, with MetaData filled in.</returns>
 		public async Task<JObject> SendMessageAsync(HttpMethod method, string uri, object postParameters = null) {
@@ -367,21 +359,14 @@ namespace BaseCampApi {
 					message.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("*/*"));
 					message.Headers.Add("User-Agent", Settings.ApplicationName + " (" + Settings.Contact + ")");
 					if (postParameters != null) {
-						if (postParameters is string) {
-							content = postParameters.ToString();
+						if (postParameters is string s) {
+							content = s;
 							message.Content = new StringContent(content, Encoding.UTF8, "text/plain");
-						} else if (postParameters is FileStream) {
-							FileStream f = postParameters as FileStream;
+						} else if (postParameters is FileStream f) {
 							content = Path.GetFileName(f.Name);
 							f.Position = 0;
 							message.Content = new StreamContent(f);
-#if NETCORE
-							string contentType;
-							if (!MimeTypeTranslator.TryGetContentType(content, out contentType))
-								contentType = "application/octet-stream";
-#else
-						string contentType = MimeMapping.GetMimeMapping(content);
-#endif
+							string contentType = MimeMapping.MimeUtility.GetMimeMapping(content);
 							message.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
 							message.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment") {
 								FileName = content

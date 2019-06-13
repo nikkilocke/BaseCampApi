@@ -78,7 +78,7 @@ namespace Tests {
 		public static Settings Settings {
 			get {
 				if(_settings == null) {
-					string dataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "BaseCampApi");
+					string dataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "BaseCampApi");
 					Directory.CreateDirectory(dataPath);
 					string filename = Path.Combine(dataPath, "TestSettings.json");
 					_settings = new Settings();
