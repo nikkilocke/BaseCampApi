@@ -2,11 +2,27 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageLicenseFile>license.txt</PackageLicenseFile>
+    <Description>C# wrapper for Basecamp API, compiled in NET Standatd, so it will work with any version of .NET.</Description>
+    <Copyright>(c) 2019 Trumphurst Ltd.</Copyright>
+    <PackageProjectUrl>https://github.com/nikkilocke/BaseCampApi</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/nikkilocke/BaseCampApi</RepositoryUrl>
+    <RepositoryType>GitHub</RepositoryType>
+    <PackageTags>Basecamp API C#</PackageTags>
+    <PackageReleaseNotes>This replaces BaseCampApiNetCore</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="MimeMapping" Version="1.0.1.12" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\license.txt">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

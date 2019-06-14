@@ -2,7 +2,7 @@
 
 This is a C# wrapper to (most of) the [Basecamp 3 API](https://github.com/basecamp/bc3-api).
 
-It is provided with Visual Studio 2019 build solutions for .NET4, Net Core 2 and Net Core 3.
+It is provided with a Visual Studio 2019 build solution for .NET Standard, so can be used with any version of .NET.
 
 There is a test project (for net core only) which also demonstrates usage.
 
