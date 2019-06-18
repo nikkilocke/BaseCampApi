@@ -95,6 +95,7 @@ namespace BaseCampApi {
 		/// <param name="getParameters">Any get parameters to pass (in an object or JObject)</param>
 		/// <param name="postParameters">Any post parameters to pass (in an object or JObject)</param>
 		public async Task<JObject> PostAsync(string application, object getParameters = null, object postParameters = null) {
+			await LoginOrRefreshIfRequiredAsync();
 			string uri = makeUri(application);
 			uri = AddGetParams(uri, getParameters);
 			return await SendMessageAsync(HttpMethod.Post, uri, postParameters);
@@ -117,6 +118,7 @@ namespace BaseCampApi {
 		/// <param name="application">The part of the url after the company</param>
 		/// <param name="getParameters">Any get parameters to pass (in an object or JObject)</param>
 		public async Task<JObject> GetAsync(string application, object getParameters = null) {
+			await LoginOrRefreshIfRequiredAsync();
 			string uri = makeUri(application);
 			uri = AddGetParams(uri, getParameters);
 			return await SendMessageAsync(HttpMethod.Get, uri);
@@ -141,6 +143,7 @@ namespace BaseCampApi {
 		/// <param name="getParameters">Any get parameters to pass (in an object or JObject)</param>
 		/// <param name="postParameters">Any post parameters to pass (in an object or JObject)</param>
 		public async Task<JObject> PutAsync(string application, object getParameters = null, object postParameters = null) {
+			await LoginOrRefreshIfRequiredAsync();
 			string uri = makeUri(application);
 			uri = AddGetParams(uri, getParameters);
 			return await SendMessageAsync(HttpMethod.Put, uri, postParameters);
@@ -164,6 +167,7 @@ namespace BaseCampApi {
 		/// <param name="application">The part of the url after the company</param>
 		/// <param name="getParameters">Any get parameters to pass (in an object or JObject)</param>
 		public async Task<JObject> DeleteAsync(string application, object getParameters = null) {
+			await LoginOrRefreshIfRequiredAsync();
 			string uri = makeUri(application);
 			uri = AddGetParams(uri, getParameters);
 			return await SendMessageAsync(HttpMethod.Delete, uri);
@@ -175,28 +179,24 @@ namespace BaseCampApi {
 		/// Then exchanges the code for a Token, and updates Settings with the Token.
 		/// </summary>
 		public async Task LoginAsync() {
-			try {
-				OpenBrowser(AddGetParams(AuthUri, new {
-					type = "web_server",    // Or user_agent
-					client_id = Settings.ClientId,
-					redirect_uri = Settings.RedirectUri
-				}));
-				string code = await WaitForRedirect(this);
-				var result = await SendMessageAsync(HttpMethod.Post, AddGetParams(AuthUri2, new {
-					type = "web_server",
-					client_id = Settings.ClientId,
-					redirect_uri = Settings.RedirectUri,
-					client_secret = Settings.ClientSecret,
-					code
-				}));
-				Log(result.ToString());
-				Token token = result.ToObject<Token>();
-				if (!string.IsNullOrEmpty(token.MetaData.error))
-					throw new ApiException(token.MetaData.error, result);
-				updateToken(token);
-			} catch (Exception ex) {
-				Log(ex.ToString());
-			}
+			OpenBrowser(AddGetParams(AuthUri, new {
+				type = "web_server",    // Or user_agent
+				client_id = Settings.ClientId,
+				redirect_uri = Settings.RedirectUri
+			}));
+			string code = await WaitForRedirect(this);
+			var result = await SendMessageAsync(HttpMethod.Post, AddGetParams(AuthUri2, new {
+				type = "web_server",
+				client_id = Settings.ClientId,
+				redirect_uri = Settings.RedirectUri,
+				client_secret = Settings.ClientSecret,
+				code
+			}));
+			Log(result.ToString());
+			Token token = result.ToObject<Token>();
+			if (!string.IsNullOrEmpty(token.MetaData.error))
+				throw new ApiException(token.MetaData.error, result);
+			updateToken(token);
 		}
 
 		/// <summary>
@@ -232,6 +232,7 @@ namespace BaseCampApi {
 		/// Get the Authorisation object for the logged in user (logging in first, if necessary)
 		/// </summary>
 		public async Task<Authorization> GetAuthorization() {
+			await LoginOrRefreshIfRequiredAsync();
 			JObject j = await SendMessageAsync(HttpMethod.Get, "https://launchpad.37signals.com/authorization.json");
 			return j.ToObject<Authorization>();
 		}
@@ -285,8 +286,16 @@ namespace BaseCampApi {
 			return uri;
 		}
 
-		public static string UrlToApi(string url) {
-			return url.Replace("basecamp.com", "basecampapi.com");
+		static readonly char[] query = new char[] { '?' };
+
+		public static string UriToApi(string uri) {
+			string[] parts = uri.Split(query, 2);
+			string ext = Path.GetExtension(parts[0]);
+			if (string.IsNullOrEmpty(ext)) {
+				parts[0] += ".json";
+				uri = string.Join("?", parts);
+			}
+			return uri.Replace("basecamp.com", "basecampapi.com");
 		}
 
 		/// <summary>
@@ -302,7 +311,6 @@ namespace BaseCampApi {
 		/// </param>
 		/// <returns>The result as a JObject, with MetaData filled in.</returns>
 		public async Task<JObject> SendMessageAsync(HttpMethod method, string uri, object postParameters = null) {
-			await LoginOrRefreshIfRequiredAsync();
 			JObject j = null;
 			using (HttpResponseMessage result = await sendMessageAsync(method, uri, postParameters)) {
 				string data = await result.Content.ReadAsStringAsync();
@@ -348,9 +356,6 @@ namespace BaseCampApi {
 		async Task<HttpResponseMessage> sendMessageAsync(HttpMethod method, string uri, object postParameters = null) {
 			for (; ; ) {
 				string content = null;
-				string ext = Path.GetExtension(uri);
-				if (string.IsNullOrEmpty(ext))
-					uri += ".json";
 				using (var message = new HttpRequestMessage(method, uri)) {
 					if (!string.IsNullOrEmpty(Settings.AccessToken) && Settings.TokenExpires > DateTime.Now)
 						message.Headers.Authorization = new AuthenticationHeaderValue("Bearer", Settings.AccessToken);
@@ -382,20 +387,16 @@ namespace BaseCampApi {
 					int backoff = 500;
 					int delay;
 					if (Settings.LogRequest > 0)
-						Log("Sent -> {0}", (Settings.LogRequest > 1 ? message.ToString() : message.RequestUri.ToString()) + ":" + content);
+						Log("Sent -> {0}", (Settings.LogRequest > 1 ? message.ToString() : uri) + ":" + content);
 					result = await _client.SendAsync(message);
 					if (Settings.LogResult > 1 || !result.IsSuccessStatusCode)
 						Log("Received -> {0}", result);
 					switch (result.StatusCode) {
 						case HttpStatusCode.Found:      // Redirect
-							uri = result.Headers.Location.AbsoluteUri;
+							uri = UriToApi(result.Headers.Location.AbsoluteUri);
 							delay = 1;
 							break;
-#if NETCORE
-						case HttpStatusCode.TooManyRequests:
-#else
 						case (HttpStatusCode)429:       // TooManyRequests
-#endif
 							delay = 5000;
 							break;
 						case HttpStatusCode.BadGateway:
@@ -432,7 +433,6 @@ namespace BaseCampApi {
 		/// Default <see cref="OpenBrowser"/>
 		/// </summary>
 		static void openBrowser(string url) {
-#if NETCORE
 			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
 				Process.Start(new ProcessStartInfo("cmd", $"/c start {url.Replace("&", "^&")}"));
 			} else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) {
@@ -442,14 +442,6 @@ namespace BaseCampApi {
 			} else {
 				throw new ApplicationException("Unknown OS platform");
 			}
-#else
-			int plat = (int)Environment.OSVersion.Platform;
-			if (plat == 4 || plat == 128) {
-				Process.Start("xdg-open", url);
-			} else {
-				Process.Start(url);
-			}
-#endif
 		}
 
 		/// <summary>

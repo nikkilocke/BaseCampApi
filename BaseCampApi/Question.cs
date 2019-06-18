@@ -19,7 +19,7 @@ namespace BaseCampApi {
 		}
 
 		async public Task<ApiList<Question>> GetAllQuestions(Api api, Status status = Status.active) {
-			return await api.GetAsync<ApiList<Question>>(Api.UrlToApi(questions_url), status == Status.active ? null : new { status });
+			return await api.GetAsync<ApiList<Question>>(Api.UriToApi(questions_url), status == Status.active ? null : new { status });
 		}
 
 		async public Task<Question> GetQuestion(Api api, long questionId) {
@@ -86,7 +86,7 @@ namespace BaseCampApi {
 #endif
 
 		async public Task<ApiList<QuestionAnswer>> GetAllQuestionAnswers(Api api, Status status = Status.active) {
-			return await api.GetAsync<ApiList<QuestionAnswer>>(Api.UrlToApi(answers_url), status == Status.active ? null : new { status });
+			return await api.GetAsync<ApiList<QuestionAnswer>>(Api.UriToApi(answers_url), status == Status.active ? null : new { status });
 		}
 
 		async public Task<QuestionAnswer> GetQuestionAnswer(Api api, long QuestionAnswerId) {

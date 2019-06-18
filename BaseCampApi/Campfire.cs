@@ -22,7 +22,7 @@ namespace BaseCampApi {
 		}
 
 		async public Task<ApiList<CampfireLine>> GetLines(Api api, Status status = Status.active) {
-			return await api.GetAsync<ApiList<CampfireLine>>(Api.UrlToApi(lines_url), status == Status.active ? null : new { status });
+			return await api.GetAsync<ApiList<CampfireLine>>(Api.UriToApi(lines_url), status == Status.active ? null : new { status });
 		}
 
 		async public Task<CampfireLine> GetLine(Api api, long lineId) {

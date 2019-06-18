@@ -18,7 +18,7 @@ namespace BaseCampApi {
 		}
 
 		async public Task<ApiList<ToDoList>> GetAllToDoLists(Api api, Status status = Status.active) {
-			return await api.GetAsync<ApiList<ToDoList>>(Api.UrlToApi(todolists_url), status == Status.active ? null : new { status });
+			return await api.GetAsync<ApiList<ToDoList>>(Api.UriToApi(todolists_url), status == Status.active ? null : new { status });
 		}
 
 		async public Task<ToDoList> GetToDoList(Api api, long toDoListId) {
@@ -74,7 +74,7 @@ namespace BaseCampApi {
 		}
 
 		async public Task<ApiList<ToDoListGroup>> GetAllToDoListGroups(Api api, Status status = Status.active) {
-			return await api.GetAsync<ApiList<ToDoListGroup>>(Api.UrlToApi(groups_url), status == Status.active ? null : new { status });
+			return await api.GetAsync<ApiList<ToDoListGroup>>(Api.UriToApi(groups_url), status == Status.active ? null : new { status });
 		}
 
 		async public Task<ToDoListGroup> GetToDoListGroup(Api api, long toDoListGroupId) {
@@ -86,7 +86,7 @@ namespace BaseCampApi {
 		}
 
 		async public Task<ApiList<ToDo>> GetAllToDos(Api api, Status status = Status.active) {
-			return await api.GetAsync<ApiList<ToDo>>(Api.UrlToApi(todos_url), status == Status.active ? null : new { status });
+			return await api.GetAsync<ApiList<ToDo>>(Api.UriToApi(todos_url), status == Status.active ? null : new { status });
 		}
 	}
 
@@ -117,7 +117,7 @@ namespace BaseCampApi {
 		}
 
 		async public Task Reposition(Api api, int newPosition) {
-			await api.PutAsync(Api.UrlToApi(group_position_url), null, new {
+			await api.PutAsync(Api.UriToApi(group_position_url), null, new {
 				position
 			});
 		}
@@ -133,7 +133,7 @@ namespace BaseCampApi {
 		}
 
 		async public Task<ApiList<ToDo>> GetAllToDos(Api api, Status status = Status.active) {
-			return await api.GetAsync<ApiList<ToDo>>(Api.UrlToApi(todos_url), status == Status.active ? null : new { status });
+			return await api.GetAsync<ApiList<ToDo>>(Api.UriToApi(todos_url), status == Status.active ? null : new { status });
 		}
 	}
 
@@ -200,11 +200,11 @@ namespace BaseCampApi {
 		}
 
 		async public Task Complete(Api api) {
-			await api.PostAsync(Api.UrlToApi(completion_url));
+			await api.PostAsync(Api.UriToApi(completion_url));
 		}
 
 		async public Task Uncomplete(Api api) {
-			await api.DeleteAsync(Api.UrlToApi(completion_url));
+			await api.DeleteAsync(Api.UriToApi(completion_url));
 		}
 
 		async public Task Reposition(Api api, int newPosition) {
