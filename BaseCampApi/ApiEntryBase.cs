@@ -162,26 +162,15 @@ namespace BaseCampApi {
 		/// <summary>
 		/// Get the next chunk of data from the server
 		/// </summary>
-		public async Task GetNext(Api api) {
+		public async Task<ApiList<T>> GetNext(Api api) {
 			if (!HasMoreData)
-				return;
+				return null;
 			Match m = Regex.Match(MetaData.Link, @"<(.*)>");
 			if (!m.Success) {
 				MetaData.Link = null;
-				return;
+				return null;
 			}
-			JObject j = await api.SendMessageAsync(HttpMethod.Get, m.Groups[1].Value);
-			ApiList<T> data = j.ToObject<ApiList<T>>();
-			List.AddRange(data.List);
-			MetaData.Link = data.MetaData.Link;
-		}
-
-		/// <summary>
-		/// Get all the data from the server
-		/// </summary>
-		public async Task GetAll(Api api) {
-			while (HasMoreData)
-				await GetNext(api);
+			return await api.GetAsync<ApiList<T>>(m.Groups[1].Value);
 		}
 
 		/// <summary>
@@ -190,14 +179,11 @@ namespace BaseCampApi {
 		/// <param name="api"></param>
 		/// <returns></returns>
 		public IEnumerable<T> All(Api api) {
-			for (int i = 0; i < TotalCount; i++) {
-				if(i >= List.Count) {
-					if(HasMoreData)
-						GetNext(api).Wait();
-					if (i >= List.Count)
-						break;
-				}
-				yield return List[i];
+			ApiList<T> chunk = this;
+			while(chunk != null && chunk.Count > 0) {
+				foreach(T t in chunk.List)
+					yield return t;
+				chunk = chunk.GetNext(api).Result;
 			}
 		}
 

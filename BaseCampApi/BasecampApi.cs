@@ -389,8 +389,15 @@ namespace BaseCampApi {
 					if (Settings.LogRequest > 0)
 						Log("Sent -> {0}", (Settings.LogRequest > 1 ? message.ToString() : uri) + ":" + content);
 					result = await _client.SendAsync(message);
-					if (Settings.LogResult > 1 || !result.IsSuccessStatusCode)
+					if (Settings.LogResult > 1)
 						Log("Received -> {0}", result);
+					if (!result.IsSuccessStatusCode) {
+						if (Settings.LogRequest < 1)
+							Log("Message -> {0}:{1}", message.ToString(), content);
+						if(Settings.LogResult < 1)
+							Log("Response -> {0}", result);
+					}
+
 					switch (result.StatusCode) {
 						case HttpStatusCode.Found:      // Redirect
 							uri = UriToApi(result.Headers.Location.AbsoluteUri);

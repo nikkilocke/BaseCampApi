@@ -122,16 +122,18 @@ namespace Tests {
 		[TestMethod]
 		public void GetAllPeople() {
 			ApiList<Person> people = RunTest(Person.GetAllPeople(Api));
-			Assert.IsTrue(people.All(Api).Any(p => p.id == Settings.TestUser));
-			Assert.IsTrue(people.All(Api).Any(p => p.id == Settings.TestUser2));
+			List<Person> all = people.All(Api).ToList();
+			Assert.IsTrue(all.Any(p => p.id == Settings.TestUser));
+			Assert.IsTrue(all.Any(p => p.id == Settings.TestUser2));
 		}
 		[TestMethod]
 		public void GetPingablePeople() {
 			ApiList<Person> people = RunTest(Person.GetPingablePeople(Api));
 			Person psn = people.All(Api).FirstOrDefault(p => p.id == Settings.TestUser);
 			psn = people.All(Api).FirstOrDefault(p => p.id == Settings.TestUser2);
-			Assert.IsTrue(people.All(Api).Any(p => p.id == Settings.TestUser));
-			Assert.IsTrue(people.All(Api).Any(p => p.id == Settings.TestUser2));
+			List<Person> all = people.All(Api).ToList();
+			Assert.IsTrue(all.Any(p => p.id == Settings.TestUser));
+			Assert.IsTrue(all.Any(p => p.id == Settings.TestUser2));
 		}
 		[TestMethod]
 		public void GetMyProfile() {
@@ -168,8 +170,9 @@ namespace Tests {
 		[TestMethod]
 		public void GetPeopleOnProject() {
 			ApiList<Person> people = RunTest(Person.GetPeopleOnProject(Api, Settings.TestProject));
-			Assert.IsTrue(people.All(Api).Any(p => p.id == Settings.LoginUser));
-			Assert.IsTrue(people.All(Api).Any(p => p.id == Settings.TestUser));
+			List<Person> all = people.All(Api).ToList();
+			Assert.IsTrue(all.Any(p => p.id == Settings.LoginUser));
+			Assert.IsTrue(all.Any(p => p.id == Settings.TestUser));
 		}
 		[TestMethod]
 		public void CreateProjectAndTrash() {
@@ -359,11 +362,12 @@ namespace Tests {
 			string name2 = "Altered message type";
 			string icon2 = "a";
 			ApiList<MessageType> messages = RunTest(MessageType.GetMessageTypes(Api, Settings.TestProject));
-			MessageType d = messages.All(Api).FirstOrDefault(x => x.name == name);
+			List<MessageType> all = messages.All(Api).ToList();
+			MessageType d = all.FirstOrDefault(x => x.name == name);
 			if(d != null) {
 				d.Destroy(Api, Settings.TestProject).Wait();
 			}
-			d = messages.All(Api).FirstOrDefault(x => x.name == name2);
+			d = all.FirstOrDefault(x => x.name == name2);
 			if (d != null) {
 				d.Destroy(Api, Settings.TestProject).Wait();
 			}
