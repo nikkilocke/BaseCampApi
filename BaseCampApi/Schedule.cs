@@ -9,7 +9,7 @@ namespace BaseCampApi {
 		public int entries_count;
 		public string entries_url;
 
-		async public static Task<Schedule> GetSchedule(Api api, long projectId, long scheduleId) {
+		async public static Task<Schedule> GetSchedule(Api api, int projectId, int scheduleId) {
 			return await api.GetAsync<Schedule>(Api.Combine("buckets", projectId, "schedules", scheduleId));
 		}
 
@@ -28,22 +28,22 @@ namespace BaseCampApi {
 		public List<Person> participants;
 
 
-		async public static Task<ApiList<ScheduleEntry>> GetScheduleEntries(Api api, long projectId, long scheduleId, Status status = Status.active) {
+		async public static Task<ApiList<ScheduleEntry>> GetScheduleEntries(Api api, int projectId, int scheduleId, Status status = Status.active) {
 			return await api.GetAsync<ApiList<ScheduleEntry>>(Api.Combine("buckets", projectId, "schedules", scheduleId, "entries"),
 				status == Status.active ? null : new { status });
 		}
 
-		async public static Task<ScheduleEntry> GetScheduleEntry(Api api, long projectId, long entryId) {
+		async public static Task<ScheduleEntry> GetScheduleEntry(Api api, int projectId, int entryId) {
 			return await api.GetAsync<ScheduleEntry>(Api.Combine("buckets", projectId, "schedule_entries", entryId));
 		}
 
-		async public static Task<ScheduleEntry> GetScheduleEntry(Api api, long projectId, long entryId, DateTime date) {
+		async public static Task<ScheduleEntry> GetScheduleEntry(Api api, int projectId, int entryId, DateTime date) {
 			return await api.GetAsync<ScheduleEntry>(Api.Combine("buckets", projectId, "schedule_entries", entryId,
 				"occurrences", date.ToString("yyyyMMdd")));
 		}
 
-		async public static Task<ScheduleEntry> Create(Api api, long projectId, long scheduleId, string summary, DateTime starts_at, DateTime ends_at, 
-			string description = null, long [] participants = null, bool all_day = true, bool notify = false) {
+		async public static Task<ScheduleEntry> Create(Api api, int projectId, int scheduleId, string summary, DateTime starts_at, DateTime ends_at, 
+			string description = null, int [] participants = null, bool all_day = true, bool notify = false) {
 			return await api.PostAsync<ScheduleEntry>(Api.Combine("buckets", projectId, "schedules", scheduleId, "entries"), null,
 				new {
 					summary,
@@ -57,7 +57,7 @@ namespace BaseCampApi {
 		}
 
 		async public Task<ScheduleEntry> Update(Api api, string summary, DateTime starts_at, DateTime ends_at,
-			string description, long[] participants, bool? all_day, bool? notify) {
+			string description, int[] participants, bool? all_day, bool? notify) {
 			return await api.PutAsync<ScheduleEntry>(Api.Combine("buckets", bucket.id, "schedules", parent.id, "entries"), null,
 				new {
 					summary,

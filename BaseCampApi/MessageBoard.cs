@@ -11,7 +11,7 @@ namespace BaseCampApi {
 		public string messages_url;
 		public string app_messages_url;
 
-		static async public Task<MessageBoard> GetMessageBoard(Api api, long projectId, long messageBoardId) {
+		static async public Task<MessageBoard> GetMessageBoard(Api api, int projectId, int messageBoardId) {
 			return await api.GetAsync<MessageBoard>(Api.Combine("buckets", projectId, "message_boards", messageBoardId));
 		}
 
@@ -21,11 +21,11 @@ namespace BaseCampApi {
 			return await api.GetAsync<ApiList<Message>>(Api.UriToApi(messages_url), status == Status.active ? null : new { status });
 		}
 
-		async public Task<Message> GetMessage(Api api, long messageId) {
+		async public Task<Message> GetMessage(Api api, int messageId) {
 			return await Message.GetMessage(api, bucket.id, messageId);
 		}
 
-		async public Task<Message> CreateMessage(Api api, string subject, string content, long category_id = 0) {
+		async public Task<Message> CreateMessage(Api api, string subject, string content, int category_id = 0) {
 			return await api.PostAsync<Message>(Api.Combine("buckets", bucket.id, "messages"), null, new {
 				subject,
 				content,
@@ -36,35 +36,35 @@ namespace BaseCampApi {
 	}
 
 	public class MessageType : ApiEntry {
-		public long id;
+		public int id;
 		public string name;
 		public string icon;
 		public DateTime created_at;
 		public DateTime updated_at;
 
-		async public static Task<ApiList<MessageType>> GetMessageTypes(Api api, long projectId) {
+		async public static Task<ApiList<MessageType>> GetMessageTypes(Api api, int projectId) {
 			return await api.GetAsync<ApiList<MessageType>>(Api.Combine("buckets", projectId, "categories"));
 		}
 
-		async public static Task<MessageType> GetMessageType(Api api, long projectId, long messageTypeId) {
+		async public static Task<MessageType> GetMessageType(Api api, int projectId, int messageTypeId) {
 			return await api.GetAsync<MessageType>(Api.Combine("buckets", projectId, "categories", messageTypeId));
 		}
 
-		async public static Task<MessageType> Create(Api api, long projectId, string name, string icon) {
+		async public static Task<MessageType> Create(Api api, int projectId, string name, string icon) {
 			return await api.PostAsync<MessageType>(Api.Combine("buckets", projectId, "categories"), null, new {
 				name,
 				icon
 			});
 		}
 
-		async public Task<MessageType> Update(Api api, long projectId, string name, string icon) {
+		async public Task<MessageType> Update(Api api, int projectId, string name, string icon) {
 			return await api.PutAsync<MessageType>(Api.Combine("buckets", projectId, "categories", id), null, new {
 				name,
 				icon
 			});
 		}
 
-		async public Task Destroy(Api api, long projectId) {
+		async public Task Destroy(Api api, int projectId) {
 			await api.DeleteAsync(Api.Combine("buckets", projectId, "categories", id));
 		}
 	}
@@ -75,15 +75,15 @@ namespace BaseCampApi {
 		public string content;
 		public string subject;
 
-		static async public Task<ApiList<Message>> GetAllMessages(Api api, long projectId, Status status = Status.active, DateSort sort = DateSort.created_at, SortDirection direction = SortDirection.desc) {
+		static async public Task<ApiList<Message>> GetAllMessages(Api api, int projectId, Status status = Status.active, DateSort sort = DateSort.created_at, SortDirection direction = SortDirection.desc) {
 			return await GetAllRecordings<Message>(api, RecordingType.Message, projectId, status, sort, direction);
 		}
 
-		static async public Task<ApiList<Message>> GetAllMessages(Api api, long [] projectIds = null, Status status = Status.active, DateSort sort = DateSort.created_at, SortDirection direction = SortDirection.desc) {
+		static async public Task<ApiList<Message>> GetAllMessages(Api api, int[] projectIds = null, Status status = Status.active, DateSort sort = DateSort.created_at, SortDirection direction = SortDirection.desc) {
 			return await GetAllRecordings<Message>(api, RecordingType.Message, projectIds, status, sort, direction);
 		}
 
-		static async public Task<Message> GetMessage(Api api, long projectId, long messageId) {
+		static async public Task<Message> GetMessage(Api api, int projectId, int messageId) {
 			return await api.GetAsync<Message>(Api.Combine("buckets", projectId, "messages", messageId));
 		}
 
@@ -95,7 +95,7 @@ namespace BaseCampApi {
 			});
 		}
 
-		async public Task<Comment> GetComment(Api api, long commentId) {
+		async public Task<Comment> GetComment(Api api, int commentId) {
 			return await Comment.GetComment(api, bucket.id, commentId);
 		}
 
@@ -111,15 +111,15 @@ namespace BaseCampApi {
 		public Parent parent;
 		public string content;
 
-		static async public Task<ApiList<Comment>> GetAllComments(Api api, long projectId, Status status = Status.active, DateSort sort = DateSort.created_at, SortDirection direction = SortDirection.desc) {
+		static async public Task<ApiList<Comment>> GetAllComments(Api api, int projectId, Status status = Status.active, DateSort sort = DateSort.created_at, SortDirection direction = SortDirection.desc) {
 			return await GetAllRecordings<Comment>(api, RecordingType.Comment, projectId, status, sort, direction);
 		}
 
-		static async public Task<ApiList<Comment>> GetAllComments(Api api, long[] projectIds = null, Status status = Status.active, DateSort sort = DateSort.created_at, SortDirection direction = SortDirection.desc) {
+		static async public Task<ApiList<Comment>> GetAllComments(Api api, int[] projectIds = null, Status status = Status.active, DateSort sort = DateSort.created_at, SortDirection direction = SortDirection.desc) {
 			return await GetAllRecordings<Comment>(api, RecordingType.Comment, projectIds, status, sort, direction);
 		}
 
-		static async public Task<Comment> GetComment(Api api, long projectId, long commentId) {
+		static async public Task<Comment> GetComment(Api api, int projectId, int commentId) {
 			return await api.GetAsync<Comment>(Api.Combine("buckets", projectId, "comments", commentId));
 		}
 

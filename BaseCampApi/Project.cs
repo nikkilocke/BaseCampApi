@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace BaseCampApi {
 	public class Parent : ApiEntryBase {
-		public long id;
+		public int id;
 		public string title;
 		public string type;
 		public string url;
@@ -14,7 +14,7 @@ namespace BaseCampApi {
 	}
 
 	public class Dock : ApiEntryBase {
-		public long id;
+		public int id;
 		public string title;
 		public enum Type { chat, message_board, todoset, schedule, questionnaire, vault, inbox }
 		public Type name;
@@ -25,7 +25,7 @@ namespace BaseCampApi {
 	}
 
 	public class Project : ApiEntry {
-		public long id;
+		public int id;
 		public Status status;
 		public DateTime created_at;
 		public DateTime updated_at;
@@ -44,7 +44,7 @@ namespace BaseCampApi {
 			return await api.GetAsync<ApiList<Project>>("projects", status == Status.active ? null : new { status });
 		}
 
-		static async public Task<Project> GetProject(Api api, long projectId) {
+		static async public Task<Project> GetProject(Api api, int projectId) {
 			return await api.GetAsync<Project>(Api.Combine("projects", projectId));
 		}
 
@@ -81,7 +81,7 @@ namespace BaseCampApi {
 		}
 
 		async public Task<Campfire> GetCampfire(Api api) {
-			long campfireId = getIdOf(Dock.Type.chat);
+			int campfireId = getIdOf(Dock.Type.chat);
 			return campfireId == 0 ? null : await Campfire.GetCampfire(api, id, campfireId);
 		}
 
@@ -90,7 +90,7 @@ namespace BaseCampApi {
 		}
 
 		async public Task<MessageBoard> GetMessageBoard(Api api) {
-			long messageBoardId = getIdOf(Dock.Type.message_board);
+			int messageBoardId = getIdOf(Dock.Type.message_board);
 			return messageBoardId == 0 ? null : await MessageBoard.GetMessageBoard(api, id, messageBoardId);
 		}
 
@@ -99,7 +99,7 @@ namespace BaseCampApi {
 		}
 
 		async public Task<Vault> GetVault(Api api) {
-			long vaultId = getIdOf(Dock.Type.vault);
+			int vaultId = getIdOf(Dock.Type.vault);
 			return vaultId == 0 ? null : await Vault.GetVault(api, id, vaultId);
 		}
 
@@ -108,7 +108,7 @@ namespace BaseCampApi {
 		}
 
 		async public Task<Schedule> GetSchedule(Api api) {
-			long scheduleId = getIdOf(Dock.Type.schedule);
+			int scheduleId = getIdOf(Dock.Type.schedule);
 			return scheduleId == 0 ? null : await Schedule.GetSchedule(api, id, scheduleId);
 		}
 
@@ -117,7 +117,7 @@ namespace BaseCampApi {
 		}
 
 		async public Task<ToDoSet> GetToDoSet(Api api) {
-			long toDoSetId = getIdOf(Dock.Type.todoset);
+			int toDoSetId = getIdOf(Dock.Type.todoset);
 			return toDoSetId == 0 ? null : await ToDoSet.GetToDoSet(api, id, toDoSetId);
 		}
 
@@ -126,11 +126,11 @@ namespace BaseCampApi {
 		}
 
 		async public Task<Questionnaire> GetQuestionnaire(Api api) {
-			long questionnaireId = getIdOf(Dock.Type.questionnaire);
+			int questionnaireId = getIdOf(Dock.Type.questionnaire);
 			return questionnaireId == 0 ? null : await Questionnaire.GetQuestionnaire(api, id, questionnaireId);
 		}
 
-		long getIdOf(Dock.Type type) {
+		int getIdOf(Dock.Type type) {
 			Dock d = dock.FirstOrDefault(i => i.name == type);
 			return d == null || !d.enabled ? 0 : d.id;
 		}

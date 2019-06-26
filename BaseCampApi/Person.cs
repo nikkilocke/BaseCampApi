@@ -8,7 +8,7 @@ namespace BaseCampApi {
 	/// People can optionally belong to a Company
 	/// </summary>
 	public class Company : ApiEntry {
-		public long id;
+		public int id;
 		public string name;
 	}
 
@@ -26,8 +26,8 @@ namespace BaseCampApi {
 	/// Used when adding people to a project
 	/// </summary>
 	public class UpdateProjectUsersList {
-		public long [] grant;
-		public long [] revoke;
+		public int [] grant;
+		public int [] revoke;
 		public NewPerson [] create;
 	}
 
@@ -40,7 +40,7 @@ namespace BaseCampApi {
 	}
 
 	public class Person : ApiEntry {
-		public long id;
+		public int id;
 		public string attachable_sgid;
 		public string name;
 		public string email_address;
@@ -60,14 +60,14 @@ namespace BaseCampApi {
 			return await api.GetAsync<ApiList<Person>>("people");
 		}
 
-		static async public Task<ApiList<Person>> GetPeopleOnProject(Api api, long projectId) {
+		static async public Task<ApiList<Person>> GetPeopleOnProject(Api api, int projectId) {
 			return await api.GetAsync<ApiList<Person>>(Api.Combine("projects", projectId, "people"));
 		}
 
 		/// <summary>
 		/// Update who can access a project
 		/// </summary>
-		static async public Task<UpdateProjectUsersResult> UpdateProjectUsers(Api api, long projectId, UpdateProjectUsersList changes) {
+		static async public Task<UpdateProjectUsersResult> UpdateProjectUsers(Api api, int projectId, UpdateProjectUsersList changes) {
 			return await api.PutAsync<UpdateProjectUsersResult>(Api.Combine("projects", projectId, "people", "users"), null, changes);
 		}
 
@@ -75,7 +75,7 @@ namespace BaseCampApi {
 			return await api.GetAsync<ApiList<Person>>(Api.Combine("circles", "people"));
 		}
 
-		static async public Task<Person> GetPerson(Api api, long id) {
+		static async public Task<Person> GetPerson(Api api, int id) {
 			return await api.GetAsync<Person>(Api.Combine("people", id));
 		}
 

@@ -17,11 +17,11 @@ namespace BaseCampApi {
 		public int vaults_count;
 		public string vaults_url;
 
-		static async public Task<ApiList<Vault>> GetVaults(Api api, long projectId, long vaultId) {
+		static async public Task<ApiList<Vault>> GetVaults(Api api, int projectId, int vaultId) {
 			return await api.GetAsync<ApiList<Vault>>(Api.Combine("buckets", projectId, "vaults", vaultId, "vaults"));
 		}
 
-		static async public Task<Vault> GetVault(Api api, long projectId, long vaultId) {
+		static async public Task<Vault> GetVault(Api api, int projectId, int vaultId) {
 			return await api.GetAsync<Vault>(Api.Combine("buckets", projectId, "vaults", vaultId));
 		}
 
@@ -45,7 +45,7 @@ namespace BaseCampApi {
 			return await Document.GetDocuments(api, bucket.id, id);
 		}
 
-		async public Task<Document> GetDocument(Api api, long documentId) {
+		async public Task<Document> GetDocument(Api api, int documentId) {
 			return await Document.GetDocument(api, bucket.id, documentId);
 		}
 
@@ -57,7 +57,7 @@ namespace BaseCampApi {
 			return await Upload.GetUploads(api, bucket.id, id);
 		}
 
-		async public Task<Upload> GetUpload(Api api, long uploadId) {
+		async public Task<Upload> GetUpload(Api api, int uploadId) {
 			return await Upload.GetUpload(api, bucket.id, uploadId);
 		}
 
@@ -72,15 +72,15 @@ namespace BaseCampApi {
 		public int position;
 		public string content;
 
-		async public static Task<ApiList<Document>> GetDocuments(Api api, long projectId, long vaultId) {
+		async public static Task<ApiList<Document>> GetDocuments(Api api, int projectId, int vaultId) {
 			return await api.GetAsync<ApiList<Document>>(Api.Combine("buckets", projectId, "vaults", vaultId, "documents"));
 		}
 
-		async public static Task<Document> GetDocument(Api api, long projectId, long documentId) {
+		async public static Task<Document> GetDocument(Api api, int projectId, int documentId) {
 			return await api.GetAsync<Document>(Api.Combine("buckets", projectId, "documents", documentId));
 		}
 
-		async public static Task<Document> CreateDocument(Api api, long projectId, long vaultId, 
+		async public static Task<Document> CreateDocument(Api api, int projectId, int vaultId, 
 				string title, string content, Status status = Status.active) {
 			return await api.PostAsync<Document>(Api.Combine("buckets", projectId, "vaults", vaultId, "documents"), null, new {
 				title,
@@ -123,15 +123,15 @@ namespace BaseCampApi {
 		public string download_url;
 		public string app_download_url;
 
-		async public static Task<ApiList<Upload>> GetUploads(Api api, long projectId, long vaultId) {
+		async public static Task<ApiList<Upload>> GetUploads(Api api, int projectId, int vaultId) {
 			return await api.GetAsync<ApiList<Upload>>(Api.Combine("buckets", projectId, "vaults", vaultId, "uploads"));
 		}
 
-		async public static Task<Upload> GetUpload(Api api, long projectId, long uploadId) {
+		async public static Task<Upload> GetUpload(Api api, int projectId, int uploadId) {
 			return await api.GetAsync<Upload>(Api.Combine("buckets", projectId, "uploads", uploadId));
 		}
 
-		async public static Task<Upload> CreateUpload(Api api, long projectId, long vaultId, string file, string description, string base_name = null) {
+		async public static Task<Upload> CreateUpload(Api api, int projectId, int vaultId, string file, string description, string base_name = null) {
 			Attachment a = await Attachment.CreateAttachment(api, file);
 			if (base_name == null)
 				base_name = file;

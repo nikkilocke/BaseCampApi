@@ -193,7 +193,7 @@ namespace BaseCampApi {
 	/// Short info about the Project owning a CreatedItem
 	/// </summary>
 	public class Bucket : ApiEntryBase {
-		public long id;
+		public int id;
 		public string name;
 		public string type;
 	}

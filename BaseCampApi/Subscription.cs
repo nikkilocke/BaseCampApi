@@ -14,7 +14,7 @@ namespace BaseCampApi {
 		public string url;
 		public Person[] subscribers;
 
-		static async public Task<Subscription> GetSubscription(Api api, long projectId, long recordingId) {
+		static async public Task<Subscription> GetSubscription(Api api, int projectId, int recordingId) {
 			return await api.GetAsync<Subscription>(Api.Combine("buckets", projectId, "recordings", recordingId, "subscription"));
 		}
 
@@ -22,7 +22,7 @@ namespace BaseCampApi {
 			return await api.GetAsync<Subscription>(Api.UriToApi(item.SubscriptionUrl));
 		}
 
-		static async public Task<Subscription> SubscribeMe(Api api, long projectId, long recordingId) {
+		static async public Task<Subscription> SubscribeMe(Api api, int projectId, int recordingId) {
 			return await api.PostAsync<Subscription>(Api.Combine("buckets", projectId, "recordings", recordingId, "subscription"));
 		}
 
@@ -30,7 +30,7 @@ namespace BaseCampApi {
 			return await api.PostAsync<Subscription>(Api.UriToApi(item.SubscriptionUrl));
 		}
 
-		static async public Task UnsubscribeMe(Api api, long projectId, long recordingId) {
+		static async public Task UnsubscribeMe(Api api, int projectId, int recordingId) {
 			await api.DeleteAsync<Subscription>(Api.Combine("buckets", projectId, "recordings", recordingId, "subscription"));
 		}
 
@@ -38,7 +38,7 @@ namespace BaseCampApi {
 			await api.DeleteAsync<Subscription>(Api.UriToApi(item.SubscriptionUrl));
 		}
 
-		static async public Task<Subscription> Update(Api api, long projectId, long recordingId, UpdateSubscriptionsList updates) {
+		static async public Task<Subscription> Update(Api api, int projectId, int recordingId, UpdateSubscriptionsList updates) {
 			return await api.PutAsync<Subscription>(Api.Combine("buckets", projectId, "recordings", recordingId, "subscription"), null, updates);
 		}
 
@@ -52,8 +52,8 @@ namespace BaseCampApi {
 	/// Used when adding and removing subscriptions
 	/// </summary>
 	public class UpdateSubscriptionsList {
-		public long[] subscriptions;
-		public long[] unsubscriptions;
+		public int[] subscriptions;
+		public int[] unsubscriptions;
 	}
 
 

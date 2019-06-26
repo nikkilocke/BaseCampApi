@@ -78,7 +78,7 @@ namespace BaseCampApi {
 		/// <summary>
 		/// The Basecamp Company to access
 		/// </summary>
-		long CompanyId  { get; }
+		int CompanyId  { get; }
 
 		/// <summary>
 		/// Set to greater than zero to log all requests going to Basecamp. 
@@ -172,7 +172,7 @@ namespace BaseCampApi {
 		/// <summary>
 		/// The Basecamp Company to access
 		/// </summary>
-		public long CompanyId { get; set; }
+		public int CompanyId { get; set; }
 
 		[JsonIgnore]
 		public bool LoggedIn {
@@ -216,7 +216,7 @@ namespace BaseCampApi {
 				w.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented));
 		}
 
-		public void SetDefaults(string clientId, string clientSecret, string applicationName, string contact, string redirectUri, long companyId) {
+		public void SetDefaults(string clientId, string clientSecret, string applicationName, string contact, string redirectUri, int companyId) {
 			bool changed = false;
 			if (string.IsNullOrEmpty(ClientId)) {
 				ClientId = clientId;
