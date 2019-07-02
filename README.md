@@ -6,7 +6,7 @@ It is provided with a Visual Studio 2019 build solution for .NET Standard, so ca
 
 There is a test project (for net core only) which also demonstrates usage.
 
-## Using the API
+## Setup before using the API
 
 In order to use the Basecamp API you need to register your application at (launchpad.37signals.com/integrations)[launchpad.37signals.com/integrations]. This returns a Client Id and Client Secret. When registering, you have to provide a redirect uri for the OAuth2 authorisation process. For simple use, provide something like http://localhost:9999 (choose another port number if you like).
 
@@ -29,3 +29,14 @@ These options would be useful if you were using the Api in your own Web Server, 
 ## License
 
 This wrapper is licensed under creative commons share-alike, see [license.txt](../master/license.txt).
+
+## Using the Api
+
+The Unit Tests should give you sufficient examples on using the Api.
+
+An Api instance is created by passing it an object that implements ISettings (a default class is provided which will read the settings from a json file). The Api instance is IDisposable, so should be Disposed when no longer needed (this is because it contains an HttpClient).
+
+C# classes are provided for the objects you can send to or receive from the BaseCampApi api. For instance the Channel object represents channels. These main objects have methods which call the BaseCampApi api - such as Channel.Create to create a new channel, Channel.GetById to get channel details, etc.
+
+Some Api calls return a list of items (such as Team.GetChannelsForUser). These are returned as an ApiList<Channel>. The BaseCampApi api itself usually only returns the first few items in the list, and needs to be called again to return the next chunk of items. This is all done for you by ApiList - it has a method called All(Api) which will return an IEnumerable of the appropriate listed object. Enumerating the enumerable will return all the items in the first chunk, then call the BaseCampApi api to get the next chunk, return them and so on. It hides all that work from the caller, while remaining as efficient as possible by only getting data when needed - for instance, using Linq calls like Any or First will stop getting data when the first item that matches the selection function is found.
+

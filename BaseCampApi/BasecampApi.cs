@@ -527,7 +527,7 @@ Content-Type: text/html; charset=UTF-8
 		/// Make the standard Uri (put BaseUri and CompanyId on the front)
 		/// </summary>
 		/// <param name="application">The remainder of the Uri</param>
-		string makeUri(string application) {
+		protected string makeUri(string application) {
 			return _http.IsMatch(application) ? application : BaseUri + Settings.CompanyId + "/" + application + ".json";
 		}
 
