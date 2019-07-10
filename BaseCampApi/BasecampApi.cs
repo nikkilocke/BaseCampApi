@@ -312,7 +312,7 @@ namespace BaseCampApi {
 		/// <returns>The result as a JObject, with MetaData filled in.</returns>
 		public async Task<JObject> SendMessageAsync(HttpMethod method, string uri, object postParameters = null) {
 			JObject j = null;
-			using (HttpResponseMessage result = await sendMessageAsync(method, uri, postParameters)) {
+			using (HttpResponseMessage result = await SendMessageAsyncAndGetResponse(method, uri, postParameters)) {
 				string data = await result.Content.ReadAsStringAsync();
 				if (data.StartsWith("{")) {
 					j = JObject.Parse(data);
@@ -353,10 +353,11 @@ namespace BaseCampApi {
 		/// <param name="method">Get/Post/etc.</param>
 		/// <param name="uri">The full Uri you want to call (including any get parameters)</param>
 		/// <param name="postParameters">Post parameters as an object or JObject</param>
-		async Task<HttpResponseMessage> sendMessageAsync(HttpMethod method, string uri, object postParameters = null) {
+		public async Task<HttpResponseMessage> SendMessageAsyncAndGetResponse(HttpMethod method, string uri, object postParameters = null) {
 			for (; ; ) {
 				string content = null;
-				using (var message = new HttpRequestMessage(method, uri)) {
+				using (DisposableCollection disposeMe = new DisposableCollection()) {
+					var message = disposeMe.Add(new HttpRequestMessage(method, uri));
 					if (!string.IsNullOrEmpty(Settings.AccessToken) && Settings.TokenExpires > DateTime.Now)
 						message.Headers.Authorization = new AuthenticationHeaderValue("Bearer", Settings.AccessToken);
 					message.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -366,11 +367,11 @@ namespace BaseCampApi {
 					if (postParameters != null) {
 						if (postParameters is string s) {
 							content = s;
-							message.Content = new StringContent(content, Encoding.UTF8, "text/plain");
+							message.Content = disposeMe.Add(new StringContent(content, Encoding.UTF8, "text/plain"));
 						} else if (postParameters is FileStream f) {
 							content = Path.GetFileName(f.Name);
 							f.Position = 0;
-							message.Content = new StreamContent(f);
+							message.Content = disposeMe.Add(new StreamContent(f));
 							string contentType = MimeMapping.MimeUtility.GetMimeMapping(content);
 							message.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
 							message.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment") {
@@ -380,7 +381,7 @@ namespace BaseCampApi {
 							content = "File: " + content;
 						} else {
 							content = postParameters.ToJson();
-							message.Content = new StringContent(content, Encoding.UTF8, "application/json");
+							message.Content = disposeMe.Add(new StringContent(content, Encoding.UTF8, "application/json"));
 						}
 					}
 					HttpResponseMessage result;

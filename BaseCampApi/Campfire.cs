@@ -38,8 +38,14 @@ namespace BaseCampApi {
 	}
 
 	public class CampfireLine : Campfire {
+		public class Attachment : ApiEntryBase {
+			public string title;
+			public string url;
+		}
+
 		public Parent parent;
 		public string content;
+		public List<Attachment> attachments;
 
 		static async public Task<CampfireLine> GetLine(Api api, int projectId, int campfireId, int lineId) {
 			return await api.GetAsync<CampfireLine>(Api.Combine("buckets", projectId, "chats", campfireId, "lines", lineId));
