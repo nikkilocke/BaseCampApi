@@ -194,6 +194,9 @@ namespace BaseCampApi {
 		[JsonIgnore]
 		public string Filename;
 
+		/// <summary>
+		/// Load a Settings object from LocalApplicationData/BaseCampApi/Settings.json
+		/// </summary>
 		public static Settings Load() {
 			string dataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "BaseCampApi");
 			Directory.CreateDirectory(dataPath);
@@ -203,6 +206,9 @@ namespace BaseCampApi {
 			return settings;
 		}
 
+		/// <summary>
+		/// Load a Settings object from the supplied json file
+		/// </summary>
 		public virtual void Load(string filename) {
 			if(File.Exists(filename))
 				using (StreamReader s = new StreamReader(filename))
@@ -210,12 +216,18 @@ namespace BaseCampApi {
 			this.Filename = filename;
 		}
 
+		/// <summary>
+		/// Save updated settings back where they came from
+		/// </summary>
 		public virtual void Save() {
 			Directory.CreateDirectory(Path.GetDirectoryName(Filename));
 			using (StreamWriter w = new StreamWriter(Filename))
 				w.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented));
 		}
 
+		/// <summary>
+		/// Handy method you can call to set default values for a loaded settings (values will only be updated if they don't already exist)
+		/// </summary>
 		public void SetDefaults(string clientId, string clientSecret, string applicationName, string contact, string redirectUri, int companyId) {
 			bool changed = false;
 			if (string.IsNullOrEmpty(ClientId)) {
@@ -246,6 +258,11 @@ namespace BaseCampApi {
 				Save();
 		}
 
+		/// <summary>
+		/// Check the Settings for missing data.
+		/// If you derive from this class you can override this method to add additional checks.
+		/// </summary>
+		/// <returns>List of error strings - empty if no missing data</returns>
 		public virtual List<string> Validate() {
 			List<string> errors = new List<string>();
 			if (string.IsNullOrEmpty(ClientId)) {

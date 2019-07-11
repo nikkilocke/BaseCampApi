@@ -134,12 +134,12 @@ namespace BaseCampApi {
 			return list;
 		}
 		/// <summary>
-		/// List of items returned so far.
+		/// List of items returned in this chunk.
 		/// </summary>
 		public List<T> List = new List<T>();
 
 		/// <summary>
-		/// Number of items retrieved so far.
+		/// Number of items retrieved in this chunk.
 		/// </summary>
 		public int Count {
 			get { return List.Count; }
