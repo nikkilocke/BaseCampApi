@@ -10,10 +10,10 @@
     <RepositoryUrl>https://github.com/nikkilocke/BaseCampApi</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
     <PackageTags>Basecamp API C#</PackageTags>
-    <PackageReleaseNotes>This replaces BaseCampApiNetCore</PackageReleaseNotes>
+    <PackageReleaseNotes>Security improvement: OAuth2 sets and checks a GUID state parameter.</PackageReleaseNotes>
     <AssemblyVersion>1.0.2.0</AssemblyVersion>
     <FileVersion>1.0.2.0</FileVersion>
-    <Version>1.0.2</Version>
+    <Version>1.0.3</Version>
   </PropertyGroup>
 
   <ItemGroup>
