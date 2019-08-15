@@ -294,12 +294,15 @@ namespace BaseCampApi {
 
 		public static string UriToApi(string uri) {
 			string[] parts = uri.Split(query, 2);
-			string ext = Path.GetExtension(parts[0]);
-			if (string.IsNullOrEmpty(ext)) {
-				parts[0] += ".json";
-				uri = string.Join("?", parts);
+			if (parts[0].Contains("basecamp.com") || parts[0].Contains("basecampapi.com")) {
+				string ext = Path.GetExtension(parts[0]);
+				if (string.IsNullOrEmpty(ext)) {
+					parts[0] += ".json";
+					uri = string.Join("?", parts);
+				}
+				uri = uri.Replace("basecamp.com", "basecampapi.com");
 			}
-			return uri.Replace("basecamp.com", "basecampapi.com");
+			return uri;
 		}
 
 		/// <summary>
@@ -362,7 +365,8 @@ namespace BaseCampApi {
 				string content = null;
 				using (DisposableCollection disposeMe = new DisposableCollection()) {
 					var message = disposeMe.Add(new HttpRequestMessage(method, uri));
-					if (!string.IsNullOrEmpty(Settings.AccessToken) && Settings.TokenExpires > DateTime.Now)
+					string[] parts = uri.Split('?');
+					if (!string.IsNullOrEmpty(Settings.AccessToken) && Settings.TokenExpires > DateTime.Now && parts[0].Contains("basecampapi.com"))
 						message.Headers.Authorization = new AuthenticationHeaderValue("Bearer", Settings.AccessToken);
 					message.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 					message.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("text/html"));

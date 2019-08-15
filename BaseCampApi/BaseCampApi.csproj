@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -10,10 +10,10 @@
     <RepositoryUrl>https://github.com/nikkilocke/BaseCampApi</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
     <PackageTags>Basecamp API C#</PackageTags>
-    <PackageReleaseNotes>Security improvement: OAuth2 sets and checks a GUID state parameter.</PackageReleaseNotes>
-    <AssemblyVersion>1.0.2.0</AssemblyVersion>
-    <FileVersion>1.0.2.0</FileVersion>
-    <Version>1.0.3</Version>
+    <PackageReleaseNotes>Fix bug where redirects to files outside Basecamp had the url changed.</PackageReleaseNotes>
+    <AssemblyVersion>1.0.4.0</AssemblyVersion>
+    <FileVersion>1.0.4.0</FileVersion>
+    <Version>1.0.4</Version>
   </PropertyGroup>
 
   <ItemGroup>
