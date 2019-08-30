@@ -4,16 +4,16 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseFile>license.txt</PackageLicenseFile>
-    <Description>C# wrapper for Basecamp API, compiled in NET Standatd, so it will work with any version of .NET.</Description>
+    <Description>https://raw.githubusercontent.com/nikkilocke/MattermostApi/master/README.md</Description>
     <Copyright>(c) 2019 Trumphurst Ltd.</Copyright>
     <PackageProjectUrl>https://github.com/nikkilocke/BaseCampApi</PackageProjectUrl>
     <RepositoryUrl>https://github.com/nikkilocke/BaseCampApi</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
     <PackageTags>Basecamp API C#</PackageTags>
-    <PackageReleaseNotes>Fix bug where redirects to files outside Basecamp had the url changed.</PackageReleaseNotes>
-    <AssemblyVersion>1.0.4.0</AssemblyVersion>
-    <FileVersion>1.0.4.0</FileVersion>
-    <Version>1.0.4</Version>
+    <PackageReleaseNotes>Separate log and error streams</PackageReleaseNotes>
+    <AssemblyVersion>1.0.6.0</AssemblyVersion>
+    <FileVersion>1.0.6.0</FileVersion>
+    <Version>1.0.6</Version>
   </PropertyGroup>
 
   <ItemGroup>
