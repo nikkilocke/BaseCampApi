@@ -12,28 +12,28 @@ namespace Tests {
 		public bool LoginTests = false;
 		public bool ModifyTests = true;
 		public bool DestructiveTests = false;
-		public int LoginUser;
-		public int TestProject;
-		public int TestUser;
-		public int TestUser2;
-		public int TestCampfire;
-		public int TestCampfireLine;
-		public int TestMessageBoard;
-		public int TestMessage;
-		public int TestComment;
-		public int TestVault;
-		public int TestDocument;
-		public int TestUpload;
-		public int TestMessageType;
-		public int AnnouncementMessageType;
-		public int TestSchedule;
-		public int TestEvent;
-		public int TestToDoSet;
-		public int TestToDoList;
-		public int TestToDoListGroup;
-		public int TestQuestionnaire;
-		public int TestQuestion;
-		public int TestAnswer;
+		public long LoginUser;
+		public long TestProject;
+		public long TestUser;
+		public long TestUser2;
+		public long TestCampfire;
+		public long TestCampfireLine;
+		public long TestMessageBoard;
+		public long TestMessage;
+		public long TestComment;
+		public long TestVault;
+		public long TestDocument;
+		public long TestUpload;
+		public long TestMessageType;
+		public long AnnouncementMessageType;
+		public long TestSchedule;
+		public long TestEvent;
+		public long TestToDoSet;
+		public long TestToDoList;
+		public long TestToDoListGroup;
+		public long TestQuestionnaire;
+		public long TestQuestion;
+		public long TestAnswer;
 		public override List<string> Validate() {
 			List<string> errors = base.Validate();
 			if (LoginUser == 0) errors.Add("LoginUser missing");
@@ -202,17 +202,17 @@ namespace Tests {
 			ApiList<Person> people = Person.GetPeopleOnProject(Api, Settings.TestProject).Result;
 			if(people.All(Api).Any(p => p.id == Settings.TestUser2)) {
 				Person.UpdateProjectUsers(Api, Settings.TestProject, new UpdateProjectUsersList() {
-					revoke = new int[] { Settings.TestUser2 }
+					revoke = new long[] { Settings.TestUser2 }
 				}).Wait();
 			}
 			UpdateProjectUsersResult result = RunTest(Person.UpdateProjectUsers(Api, Settings.TestProject, new UpdateProjectUsersList() {
-				grant = new int[] { Settings.TestUser2 }
+				grant = new long[] { Settings.TestUser2 }
 			}));
 			Assert.IsTrue(result.granted.Length == 0 || result.granted[0].id == Settings.TestUser2);
 			people = Person.GetPeopleOnProject(Api, Settings.TestProject).Result;
 			Assert.IsTrue(people.All(Api).Any(p => p.id == Settings.TestUser2));
 			result = RunTest(Person.UpdateProjectUsers(Api, Settings.TestProject, new UpdateProjectUsersList() {
-				revoke = new int[] { Settings.TestUser2 }
+				revoke = new long[] { Settings.TestUser2 }
 			}));
 			Assert.AreEqual(Settings.TestUser2, result.revoked[0].id);
 			people = Person.GetPeopleOnProject(Api, Settings.TestProject).Result;

@@ -193,7 +193,7 @@ namespace BaseCampApi {
 	/// Short info about the Project owning a CreatedItem
 	/// </summary>
 	public class Bucket : ApiEntryBase {
-		public int id;
+		public long id;
 		public string name;
 		public string type;
 	}
@@ -202,7 +202,7 @@ namespace BaseCampApi {
 	/// Many Api items have all these fields, so they are in this superclass.
 	/// </summary>
 	public class CreatedItem : ApiEntry {
-		public int id;
+		public long id;
 		public string status;
 		public DateTime created_at;
 		public DateTime updated_at;

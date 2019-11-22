@@ -17,7 +17,7 @@ namespace BaseCampApi {
 			return await api.GetAsync<ApiList<Campfire>>("chats");
 		}
 
-		static async public Task<Campfire> GetCampfire(Api api, int projectId, int campfireId) {
+		static async public Task<Campfire> GetCampfire(Api api, long projectId, long campfireId) {
 			return await api.GetAsync<Campfire>(Api.Combine("buckets", projectId, "chats", campfireId));
 		}
 
@@ -25,7 +25,7 @@ namespace BaseCampApi {
 			return await api.GetAsync<ApiList<CampfireLine>>(Api.UriToApi(lines_url), status == Status.active ? null : new { status });
 		}
 
-		async public Task<CampfireLine> GetLine(Api api, int lineId) {
+		async public Task<CampfireLine> GetLine(Api api, long lineId) {
 			return await CampfireLine.GetLine(api, bucket.id, id, lineId);
 		}
 
@@ -47,7 +47,7 @@ namespace BaseCampApi {
 		public string content;
 		public List<Attachment> attachments;
 
-		static async public Task<CampfireLine> GetLine(Api api, int projectId, int campfireId, int lineId) {
+		static async public Task<CampfireLine> GetLine(Api api, long projectId, long campfireId, long lineId) {
 			return await api.GetAsync<CampfireLine>(Api.Combine("buckets", projectId, "chats", campfireId, "lines", lineId));
 		}
 

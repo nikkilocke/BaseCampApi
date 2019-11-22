@@ -13,7 +13,7 @@ namespace BaseCampApi {
 		public string todolists_url;
 		public string app_todoslists_url;
 
-		async static public Task<ToDoSet> GetToDoSet(Api api, int projectId, int toDoSetId) {
+		async static public Task<ToDoSet> GetToDoSet(Api api, long projectId, long toDoSetId) {
 			return await api.GetAsync<ToDoSet>(Api.Combine("buckets", projectId, "todosets", toDoSetId));
 		}
 
@@ -21,7 +21,7 @@ namespace BaseCampApi {
 			return await api.GetAsync<ApiList<ToDoList>>(Api.UriToApi(todolists_url), status == Status.active ? null : new { status });
 		}
 
-		async public Task<ToDoList> GetToDoList(Api api, int toDoListId) {
+		async public Task<ToDoList> GetToDoList(Api api, long toDoListId) {
 			return await ToDoList.GetToDoList(api, bucket.id, toDoListId);
 		}
 
@@ -50,16 +50,16 @@ namespace BaseCampApi {
 		public string groups_url;
 		public string app_todos_url;
 
-		async static public Task<ApiList<ToDoList>> GetAllToDoLists(Api api, int projectId, int toDoSetId, Status status = Status.active) {
+		async static public Task<ApiList<ToDoList>> GetAllToDoLists(Api api, long projectId, long toDoSetId, Status status = Status.active) {
 			return await api.GetAsync<ApiList<ToDoList>>(Api.Combine("buckets", projectId, "todosets", toDoSetId, "todolists"),
 				status == Status.active ? null : new { status });
 		}
 
-		async static public Task<ToDoList> GetToDoList(Api api, int projectId, int toDoListId) {
+		async static public Task<ToDoList> GetToDoList(Api api, long projectId, long toDoListId) {
 			return await api.GetAsync<ToDoList>(Api.Combine("buckets", projectId, "todolists", toDoListId));
 		}
 
-		async static public Task<ToDoList> Create(Api api, int projectId, int toDoSetId, string name, string description) {
+		async static public Task<ToDoList> Create(Api api, long projectId, long toDoSetId, string name, string description) {
 			return await api.PostAsync<ToDoList>(Api.Combine("buckets", projectId, "todosets", toDoSetId, "todolists"), null, new {
 				name,
 				description
@@ -77,7 +77,7 @@ namespace BaseCampApi {
 			return await api.GetAsync<ApiList<ToDoListGroup>>(Api.UriToApi(groups_url), status == Status.active ? null : new { status });
 		}
 
-		async public Task<ToDoListGroup> GetToDoListGroup(Api api, int toDoListGroupId) {
+		async public Task<ToDoListGroup> GetToDoListGroup(Api api, long toDoListGroupId) {
 			return await ToDoListGroup.GetToDoListGroup(api, bucket.id, toDoListGroupId);
 		}
 
@@ -101,22 +101,22 @@ namespace BaseCampApi {
 		public string group_position_url;
 		public string app_todos_url;
 
-		async static public Task<ApiList<ToDoListGroup>> GetAllToDoListGroups(Api api, int projectId, int toDoListId, Status status = Status.active) {
+		async static public Task<ApiList<ToDoListGroup>> GetAllToDoListGroups(Api api, long projectId, long toDoListId, Status status = Status.active) {
 			return await api.GetAsync<ApiList<ToDoListGroup>>(Api.Combine("buckets", projectId, "todolists", toDoListId, "groups"),
 				status == Status.active ? null : new { status });
 		}
 
-		async static public Task<ToDoListGroup> GetToDoListGroup(Api api, int projectId, int toDoListGroupId) {
+		async static public Task<ToDoListGroup> GetToDoListGroup(Api api, long projectId, long toDoListGroupId) {
 			return await api.GetAsync<ToDoListGroup>(Api.Combine("buckets", projectId, "todolists", toDoListGroupId));
 		}
 
-		async static public Task<ToDoListGroup> Create(Api api, int projectId, int toDoListId, string name) {
+		async static public Task<ToDoListGroup> Create(Api api, long projectId, long toDoListId, string name) {
 			return await api.PostAsync<ToDoListGroup>(Api.Combine("buckets", projectId, "todolists", toDoListId, "groups"), null, new {
 				name
 			});
 		}
 
-		async public Task Reposition(Api api, int newPosition) {
+		async public Task Reposition(Api api, int position) {
 			await api.PutAsync(Api.UriToApi(group_position_url), null, new {
 				position
 			});
@@ -139,8 +139,8 @@ namespace BaseCampApi {
 
 	public class ToDoData : ApiEntryBase {
 		public string content;
-		public int[] assignee_ids;
-		public int[] completion_subscriber_ids;
+		public long[] assignee_ids;
+		public long[] completion_subscriber_ids;
 		public bool? notify;
 		public DateTime due_on;
 		public DateTime starts_on;
@@ -175,21 +175,21 @@ namespace BaseCampApi {
 		public List<Person> completion_subscribers;
 		public string completion_url;
 
-		async static public Task<ApiList<ToDo>> GetAllToDos(Api api, int projectId, int toDoListId, Status status = Status.active) {
+		async static public Task<ApiList<ToDo>> GetAllToDos(Api api, long projectId, long toDoListId, Status status = Status.active) {
 			return await api.GetAsync<ApiList<ToDo>>(Api.Combine("buckets", projectId, "todolists", toDoListId),
 				status == Status.active ? null : new { status });
 		}
 
-		async static public Task<ApiList<ToDo>> GetCompletedToDos(Api api, int projectId, int toDoListId, Status status = Status.active) {
+		async static public Task<ApiList<ToDo>> GetCompletedToDos(Api api, long projectId, long toDoListId, Status status = Status.active) {
 			return await api.GetAsync<ApiList<ToDo>>(Api.Combine("buckets", projectId, "todolists", toDoListId),
 				status == Status.active ? (object)new { completed = true } : (object)new { status, completed = true });
 		}
 
-		async static public Task<ToDo> GetToDo(Api api, int projectId, int toDoId) {
+		async static public Task<ToDo> GetToDo(Api api, long projectId, long toDoId) {
 			return await api.GetAsync<ToDo>(Api.Combine("buckets", projectId, "todos", toDoId));
 		}
 
-		async static public Task<ToDo> CreateToDo(Api api, int projectId, int toDoListId, ToDoData data) {
+		async static public Task<ToDo> CreateToDo(Api api, long projectId, long toDoListId, ToDoData data) {
 			if (string.IsNullOrEmpty(data.content))
 				throw new ApplicationException("Content not supplied");
 			return await api.PostAsync<ToDo>(Api.Combine("buckets", projectId, "todolists", toDoListId, "todos"), null, data.ToJObject());
@@ -207,7 +207,7 @@ namespace BaseCampApi {
 			await api.DeleteAsync(Api.UriToApi(completion_url));
 		}
 
-		async public Task Reposition(Api api, int newPosition) {
+		async public Task Reposition(Api api, int position) {
 			await api.PutAsync(Api.Combine("buckets", bucket.id, "todos", id, "position"), null, new {
 				position
 			});

@@ -9,12 +9,12 @@ namespace BaseCampApi {
 	/// Also known as Automatic Check-in
 	/// </summary>
 	public class Questionnaire : CreatedItem {
-		public int position;
+		public long position;
 		public string name;
 		public int questions_count;
 		public string questions_url;
 
-		async static public Task<Questionnaire> GetQuestionnaire(Api api, int projectId, int questionnaireId) {
+		async static public Task<Questionnaire> GetQuestionnaire(Api api, long projectId, long questionnaireId) {
 			return await api.GetAsync<Questionnaire>(Api.Combine("buckets", projectId, "questionnaires", questionnaireId));
 		}
 
@@ -22,7 +22,7 @@ namespace BaseCampApi {
 			return await api.GetAsync<ApiList<Question>>(Api.UriToApi(questions_url), status == Status.active ? null : new { status });
 		}
 
-		async public Task<Question> GetQuestion(Api api, int questionId) {
+		async public Task<Question> GetQuestion(Api api, long questionId) {
 			return await Question.GetQuestion(api, bucket.id, questionId);
 		}
 
@@ -55,12 +55,12 @@ namespace BaseCampApi {
 		public int answers_count;
 		public string answers_url;
 
-		async static public Task<ApiList<Question>> GetAllQuestions(Api api, int projectId, int questionnaireId, Status status = Status.active) {
+		async static public Task<ApiList<Question>> GetAllQuestions(Api api, long projectId, long questionnaireId, Status status = Status.active) {
 			return await api.GetAsync<ApiList<Question>>(Api.Combine("buckets", projectId, "questionnaires", questionnaireId, "questions"),
 				status == Status.active ? null : new { status });
 		}
 
-		async static public Task<Question> GetQuestion(Api api, int projectId, int questionId) {
+		async static public Task<Question> GetQuestion(Api api, long projectId, long questionId) {
 			return await api.GetAsync<Question>(Api.Combine("buckets", projectId, "questions", questionId));
 		}
 
@@ -68,7 +68,7 @@ namespace BaseCampApi {
 		/// <summary>
 		/// Not documented in API
 		/// </summary>
-		async static public Task<Question> Create(Api api, int projectId, int questionnaireId, string name) {
+		async static public Task<Question> Create(Api api, long projectId, long questionnaireId, string name) {
 			return await api.PostAsync<Question>(Api.Combine("buckets", projectId, "questionnaires", questionnaireId, "Questions"), null, new {
 				name
 			});
@@ -89,7 +89,7 @@ namespace BaseCampApi {
 			return await api.GetAsync<ApiList<QuestionAnswer>>(Api.UriToApi(answers_url), status == Status.active ? null : new { status });
 		}
 
-		async public Task<QuestionAnswer> GetQuestionAnswer(Api api, int QuestionAnswerId) {
+		async public Task<QuestionAnswer> GetQuestionAnswer(Api api, long QuestionAnswerId) {
 			return await QuestionAnswer.GetQuestionAnswer(api, bucket.id, QuestionAnswerId);
 		}
 
@@ -106,12 +106,12 @@ namespace BaseCampApi {
 		public string content;
 		public string group_on;
 
-		async static public Task<ApiList<QuestionAnswer>> GetAllQuestionAnswers(Api api, int projectId, int questionId, Status status = Status.active) {
+		async static public Task<ApiList<QuestionAnswer>> GetAllQuestionAnswers(Api api, long projectId, long questionId, Status status = Status.active) {
 			return await api.GetAsync<ApiList<QuestionAnswer>>(Api.Combine("buckets", projectId, "questions", questionId, "answers"),
 				status == Status.active ? null : new { status });
 		}
 
-		async static public Task<QuestionAnswer> GetQuestionAnswer(Api api, int projectId, int QuestionAnswerId) {
+		async static public Task<QuestionAnswer> GetQuestionAnswer(Api api, long projectId, long QuestionAnswerId) {
 			return await api.GetAsync<QuestionAnswer>(Api.Combine("buckets", projectId, "question_answers", QuestionAnswerId));
 		}
 
@@ -119,7 +119,7 @@ namespace BaseCampApi {
 		/// <summary>
 		/// Not documented in API
 		/// </summary>
-		async static public Task<QuestionAnswer> Create(Api api, int projectId, int questionId, string content) {
+		async static public Task<QuestionAnswer> Create(Api api, long projectId, long questionId, string content) {
 			return await api.PostAsync<QuestionAnswer>(Api.Combine("buckets", projectId, "question_answers", questionId, "question"), null, new {
 				content
 			});

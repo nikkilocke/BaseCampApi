@@ -16,7 +16,7 @@ namespace BaseCampApi {
 	/// Identity of person logged in
 	/// </summary>
 	public class Identity : ApiEntryBase {
-		public int id;
+		public long id;
 		public string first_name;
 		public string last_name;
 		public string email_address;
@@ -27,7 +27,7 @@ namespace BaseCampApi {
 	/// </summary>
 	public class Account : ApiEntryBase {
 		public string product;
-		public int id;
+		public long id;
 		public string name;
 		public string href;
 		public string app_href;
@@ -44,7 +44,7 @@ namespace BaseCampApi {
 		/// <summary>
 		/// Whether this person is authorised for the given company id.
 		/// </summary>
-		public bool AuthorisedFor(int companyId) {
+		public bool AuthorisedFor(long companyId) {
 			return accounts.Any(a => a.id == companyId);
 		}
 	}

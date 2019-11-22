@@ -78,7 +78,7 @@ namespace BaseCampApi {
 		/// <summary>
 		/// The Basecamp Company to access
 		/// </summary>
-		int CompanyId  { get; }
+		long CompanyId  { get; }
 
 		/// <summary>
 		/// Set to greater than zero to log all requests going to Basecamp. 
@@ -172,7 +172,7 @@ namespace BaseCampApi {
 		/// <summary>
 		/// The Basecamp Company to access
 		/// </summary>
-		public int CompanyId { get; set; }
+		public long CompanyId { get; set; }
 
 		[JsonIgnore]
 		public bool LoggedIn {
@@ -228,7 +228,7 @@ namespace BaseCampApi {
 		/// <summary>
 		/// Handy method you can call to set default values for a loaded settings (values will only be updated if they don't already exist)
 		/// </summary>
-		public void SetDefaults(string clientId, string clientSecret, string applicationName, string contact, string redirectUri, int companyId) {
+		public void SetDefaults(string clientId, string clientSecret, string applicationName, string contact, string redirectUri, long companyId) {
 			bool changed = false;
 			if (string.IsNullOrEmpty(ClientId)) {
 				ClientId = clientId;

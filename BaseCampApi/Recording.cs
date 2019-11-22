@@ -38,12 +38,12 @@ namespace BaseCampApi {
 	/// </summary>
 	public class Recording : CreatedItem {
 		public bool visible_to_clients;
-		static async public Task<ApiList<T>> GetAllRecordings<T>(Api api, RecordingType type, int projectId, Status status = Status.active, DateSort sort = DateSort.created_at, SortDirection direction = SortDirection.desc)
+		static async public Task<ApiList<T>> GetAllRecordings<T>(Api api, RecordingType type, long projectId, Status status = Status.active, DateSort sort = DateSort.created_at, SortDirection direction = SortDirection.desc)
 			where T:new(){
-			return await GetAllRecordings<T>(api, type, new int[] { projectId }, status, sort, direction);
+			return await GetAllRecordings<T>(api, type, new long[] { projectId }, status, sort, direction);
 		}
 
-		static async public Task<ApiList<T>> GetAllRecordings<T>(Api api, RecordingType type, int[] projectIds = null, Status status = Status.active, DateSort sort = DateSort.created_at, SortDirection direction = SortDirection.desc)
+		static async public Task<ApiList<T>> GetAllRecordings<T>(Api api, RecordingType type, long[] projectIds = null, Status status = Status.active, DateSort sort = DateSort.created_at, SortDirection direction = SortDirection.desc)
 			where T:new() {
 			return await api.GetAsync<ApiList<T>>(Api.Combine("projects", "recordings"), new {
 				type,
@@ -54,7 +54,7 @@ namespace BaseCampApi {
 			});
 		}
 
-		static async public Task SetStatus(Api api, int bucket, int id, Status status) {
+		static async public Task SetStatus(Api api, long bucket, long id, Status status) {
 			await api.PutAsync(Api.Combine("buckets", bucket, "recordings", id, "status", status));
 		}
 
