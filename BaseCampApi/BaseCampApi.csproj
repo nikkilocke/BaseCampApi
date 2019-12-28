@@ -10,10 +10,10 @@
     <RepositoryUrl>https://github.com/nikkilocke/BaseCampApi</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
     <PackageTags>Basecamp API C#</PackageTags>
-    <PackageReleaseNotes>Increase size of all ids from int to long</PackageReleaseNotes>
-    <AssemblyVersion>1.0.7.0</AssemblyVersion>
-    <FileVersion>1.0.7.0</FileVersion>
-    <Version>1.0.7</Version>
+    <PackageReleaseNotes>Handle downloading files &gt; 2GB</PackageReleaseNotes>
+    <AssemblyVersion>1.0.8.0</AssemblyVersion>
+    <FileVersion>1.0.8.0</FileVersion>
+    <Version>1.0.8</Version>
   </PropertyGroup>
 
   <ItemGroup>

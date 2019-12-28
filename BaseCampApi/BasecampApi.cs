@@ -400,7 +400,7 @@ namespace BaseCampApi {
 					int delay;
 					if (Settings.LogRequest > 0)
 						Log($"Sent -> {(Settings.LogRequest > 1 ? message.ToString() : uri)}:{content}");
-					result = await _client.SendAsync(message);
+					result = await _client.SendAsync(message, HttpCompletionOption.ResponseHeadersRead);
 					if (Settings.LogResult > 1)
 						Log($"Received -> {result}");
 					if (!result.IsSuccessStatusCode) {
