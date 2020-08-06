@@ -5,15 +5,15 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseFile>license.txt</PackageLicenseFile>
     <Description>https://raw.githubusercontent.com/nikkilocke/MattermostApi/master/README.md</Description>
-    <Copyright>(c) 2019 Trumphurst Ltd.</Copyright>
+    <Copyright>(c) 2019-2020 Trumphurst Ltd.</Copyright>
     <PackageProjectUrl>https://github.com/nikkilocke/BaseCampApi</PackageProjectUrl>
     <RepositoryUrl>https://github.com/nikkilocke/BaseCampApi</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
     <PackageTags>Basecamp API C#</PackageTags>
-    <PackageReleaseNotes>Handle downloading files &gt; 2GB</PackageReleaseNotes>
-    <AssemblyVersion>1.0.8.0</AssemblyVersion>
-    <FileVersion>1.0.8.0</FileVersion>
-    <Version>1.0.8</Version>
+    <PackageReleaseNotes>Fix bug in Post Message</PackageReleaseNotes>
+    <AssemblyVersion>1.0.9.0</AssemblyVersion>
+    <FileVersion>1.0.9.0</FileVersion>
+    <Version>1.0.9</Version>
   </PropertyGroup>
 
   <ItemGroup>

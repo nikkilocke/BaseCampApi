@@ -26,7 +26,7 @@ namespace BaseCampApi {
 		}
 
 		async public Task<Message> CreateMessage(Api api, string subject, string content, long category_id = 0) {
-			return await api.PostAsync<Message>(Api.Combine("buckets", bucket.id, "messages"), null, new {
+			return await api.PostAsync<Message>(Api.Combine("buckets", bucket.id, "message_boards", id, "messages"), null, new {
 				subject,
 				content,
 				category_id
