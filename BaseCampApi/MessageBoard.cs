@@ -26,11 +26,21 @@ namespace BaseCampApi {
 		}
 
 		async public Task<Message> CreateMessage(Api api, string subject, string content, long category_id = 0) {
-			return await api.PostAsync<Message>(Api.Combine("buckets", bucket.id, "message_boards", id, "messages"), null, new {
-				subject,
-				content,
-				category_id
-			});
+			object o;
+			if (category_id == 0)
+				o = new {
+					subject,
+					content,
+					status = "active"
+				};
+			else
+				o = new {
+					subject,
+					content,
+					category_id,
+					status = "active"
+				};
+			return await api.PostAsync<Message>(Api.Combine("buckets", bucket.id, "message_boards", id, "messages"), null, o);
 		}
 
 	}

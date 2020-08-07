@@ -11,9 +11,9 @@
     <RepositoryType>GitHub</RepositoryType>
     <PackageTags>Basecamp API C#</PackageTags>
     <PackageReleaseNotes>Fix bug in Post Message</PackageReleaseNotes>
-    <AssemblyVersion>1.0.9.0</AssemblyVersion>
-    <FileVersion>1.0.9.0</FileVersion>
-    <Version>1.0.9</Version>
+    <AssemblyVersion>1.0.10.0</AssemblyVersion>
+    <FileVersion>1.0.10.0</FileVersion>
+    <Version>1.0.10</Version>
   </PropertyGroup>
 
   <ItemGroup>
